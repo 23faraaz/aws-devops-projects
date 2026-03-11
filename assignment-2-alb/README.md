@@ -344,7 +344,7 @@ Potential improvements for production-grade deployments include:
 
 ---
 
-# Key Learning Outcomes
+## Key Learning Outcomes
 
 Through this project the following skills were demonstrated:
 
@@ -354,6 +354,21 @@ Through this project the following skills were demonstrated:
 - Security group network isolation
 - Load balancing verification
 - Cloud infrastructure troubleshooting
+
+## Technology Stack
+
+AWS EC2  
+AWS Application Load Balancer (ALB)  
+AWS VPC  
+AWS Subnets  
+AWS Route Tables  
+AWS Internet Gateway  
+AWS Security Groups  
+AWS Auto Scaling (optional if implemented)  
+AWS Route53 (optional DNS)  
+Linux (Amazon Linux)  
+NGINX Web Server  
+Bash (EC2 User Data)  
 
 ---
 
