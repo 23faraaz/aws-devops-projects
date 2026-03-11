@@ -357,18 +357,18 @@ Through this project the following skills were demonstrated:
 
 ## Technology Stack
 
-AWS EC2  
-AWS Application Load Balancer (ALB)  
-AWS VPC  
-AWS Subnets  
-AWS Route Tables  
-AWS Internet Gateway  
-AWS Security Groups  
-AWS Auto Scaling (optional if implemented)  
-AWS Route53 (optional DNS)  
-Linux (Amazon Linux)  
-NGINX Web Server  
-Bash (EC2 User Data)  
+- AWS EC2  
+- AWS Application Load Balancer (ALB)  
+- AWS VPC  
+- AWS Subnets  
+- AWS Route Tables  
+- AWS Internet Gateway  
+- AWS Security Groups  
+- AWS Auto Scaling (optional if implemented)  
+- AWS Route53 (optional DNS)  
+- Linux (Amazon Linux)  
+- NGINX Web Server  
+- Bash (EC2 User Data)  
 
 ---
 
