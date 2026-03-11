@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faraaz Mohammed — DevOps & Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+/* ─── RESET & ROOT ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080c10;
+  --bg2:       #0d1117;
+  --bg3:       #111820;
+  --surface:   #141c26;
+  --border:    #1e2d3d;
+  --border2:   #243447;
+  --cyan:      #00d4ff;
+  --cyan-dim:  #00a8cc;
+  --green:     #00ff88;
+  --green-dim: #00cc6a;
+  --orange:    #ff6b35;
+  --yellow:    #ffd166;
+  --text:      #c9d8e8;
+  --text-dim:  #6a8099;
+  --text-faint:#3a5068;
+  --mono:      'JetBrains Mono', monospace;
+  --sans:      'DM Sans', sans-serif;
+  --display:   'Syne', sans-serif;
+  --glow-c:    0 0 20px rgba(0,212,255,0.35), 0 0 60px rgba(0,212,255,0.12);
+  --glow-g:    0 0 20px rgba(0,255,136,0.35), 0 0 60px rgba(0,255,136,0.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--sans); font-size: 16px; line-height: 1.7;
+  overflow-x: hidden; cursor: default;
+}
+
+::selection { background: rgba(0,212,255,0.25); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* ─── NAV ─────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(8,12,16,0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); transition: padding 0.3s;
+}
+.nav-logo { font-family: var(--mono); font-size: 14px; color: var(--cyan); letter-spacing: 0.05em; }
+.nav-logo span { color: var(--text-dim); }
+.nav-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+.nav-links a {
+  font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
+  text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--cyan); transition: width 0.3s; }
+.nav-links a:hover { color: var(--cyan); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ─── LAYOUT ──────────────────────────────────────── */
+section { position: relative; z-index: 1; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 0; opacity: 0.4; }
+
+/* ─── HERO ────────────────────────────────────────── */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+.hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; }
+.hero-glow-2 { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%); bottom: -100px; left: -100px; pointer-events: none; }
+
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+
+.hero-tag { font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.hero-tag::before { content: '//'; color: var(--text-faint); }
+
+.hero-name { font-family: var(--display); font-size: clamp(42px, 5vw, 72px); font-weight: 800; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+.hero-name .line1 { display: block; color: var(--text); }
+.hero-name .line2 { display: block; background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.hero-role { font-family: var(--mono); font-size: 14px; color: var(--text-dim); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+.hero-role .blink { color: var(--cyan); animation: blink 1s step-end infinite; }
+
+.hero-desc { font-size: 15px; color: var(--text-dim); line-height: 1.85; max-width: 460px; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+.hero-desc strong { color: var(--text); font-weight: 500; }
+
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--cyan); color: var(--bg); font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); transition: all 0.2s; }
+.btn-primary:hover { background: var(--green); box-shadow: var(--glow-g); transform: translateY(-2px); }
+
+.btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 11px 28px; background: transparent; color: var(--cyan); font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border2); cursor: pointer; transition: all 0.2s; }
+.btn-ghost:hover { border-color: var(--cyan); box-shadow: var(--glow-c); transform: translateY(-2px); }
+
+/* ─── TERMINAL ────────────────────────────────────── */
+.terminal { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-family: var(--mono); opacity: 0; animation: fadeUp 0.8s 0.5s forwards; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.terminal-bar { background: var(--bg3); padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-dot:nth-child(1) { background: #ff5f57; }
+.term-dot:nth-child(2) { background: #febc2e; }
+.term-dot:nth-child(3) { background: #28c840; }
+.term-title { font-size: 11px; color: var(--text-faint); margin-left: auto; }
+.terminal-body { padding: 22px 24px; font-size: 12.5px; line-height: 2.0; }
+.t-prompt { color: var(--green); }
+.t-comment { color: var(--text-faint); }
+.t-key { color: var(--cyan); }
+.t-val { color: var(--orange); }
+.t-str { color: #a8d8a8; }
+.t-line { display: block; }
+.t-indent { padding-left: 16px; display: block; }
+
+.typed-text { overflow: hidden; white-space: nowrap; }
+.typed-1 { animation: typing 1.5s steps(30,end) 1.2s  forwards; width: 0; }
+.typed-2 { animation: typing 1.2s steps(25,end) 2.8s  forwards; width: 0; }
+.typed-3 { animation: typing 1.0s steps(22,end) 4.1s  forwards; width: 0; }
+.typed-4 { animation: typing 1.2s steps(26,end) 5.3s  forwards; width: 0; }
+.typed-5 { animation: typing 1.0s steps(20,end) 6.6s  forwards; width: 0; }
+.typed-6 { animation: typing 0.9s steps(18,end) 7.8s  forwards; width: 0; }
+.typed-7 { animation: typing 0.8s steps(16,end) 8.8s  forwards; width: 0; }
+
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink  { 50% { opacity: 0; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulseY { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+@keyframes pulseDot { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+/* ─── SECTION HEADER ──────────────────────────────── */
+.section-header { margin-bottom: 56px; }
+.section-tag { font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.section-tag::before { content: '//'; color: var(--text-faint); }
+.section-title { font-family: var(--display); font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.section-line { width: 60px; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); margin-top: 16px; }
+
+/* ─── ABOUT ───────────────────────────────────────── */
+#about { padding: 120px 0; }
+.about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+.about-text p { color: var(--text-dim); font-size: 15px; line-height: 1.9; margin-bottom: 20px; }
+.about-text p strong { color: var(--cyan); font-weight: 500; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 40px; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); padding: 20px; transition: border-color 0.2s; }
+.stat-box:hover { border-color: var(--cyan); }
+.stat-num { font-family: var(--display); font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--cyan), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+.stat-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+.about-card { background: var(--surface); border: 1px solid var(--border); padding: 32px; position: relative; }
+.about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--green), transparent); }
+.edu-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); padding: 6px 12px; font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: 0.08em; margin-bottom: 20px; }
+.about-card h3 { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.about-card .school { font-family: var(--mono); font-size: 12px; color: var(--cyan); letter-spacing: 0.05em; margin-bottom: 16px; }
+.about-card p { font-size: 14px; color: var(--text-dim); line-height: 1.8; }
+.transition-note { margin-top: 24px; padding: 16px 20px; background: rgba(0,255,136,0.04); border-left: 2px solid var(--green); font-family: var(--mono); font-size: 12px; color: var(--green-dim); line-height: 1.9; }
+
+/* ─── SKILLS ──────────────────────────────────────── */
+#skills { padding: 120px 0; background: var(--bg2); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; }
+.skill-category { background: var(--surface); border: 1px solid var(--border); padding: 28px; transition: border-color 0.3s, transform 0.2s; }
+.skill-category:hover { border-color: var(--border2); transform: translateY(-3px); }
+.skill-cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.skill-cat-icon { width: 36px; height: 36px; background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.skill-cat-name { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; }
+.skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-pill { font-family: var(--mono); font-size: 11px; padding: 5px 12px; background: rgba(30,45,61,0.8); border: 1px solid var(--border); color: var(--text-dim); letter-spacing: 0.05em; transition: all 0.2s; cursor: default; }
+.skill-pill:hover { background: rgba(0,212,255,0.08); border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+.skill-pill.hot { border-color: rgba(0,212,255,0.3); color: var(--cyan); }
+
+/* ─── EXPERIENCE ──────────────────────────────────── */
+#experience { padding: 120px 0; }
+.timeline { position: relative; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--cyan), transparent); }
+.exp-item { position: relative; padding-left: 40px; margin-bottom: 56px; }
+.exp-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+.exp-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+.exp-company { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--text); }
+.exp-period { font-family: var(--mono); font-size: 11px; color: var(--text-faint); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; letter-spacing: 0.08em; }
+.exp-role { font-family: var(--mono); font-size: 13px; color: var(--cyan); margin-bottom: 16px; letter-spacing: 0.03em; }
+.exp-bullets { list-style: none; }
+.exp-bullets li { font-size: 14px; color: var(--text-dim); padding: 5px 0; padding-left: 20px; position: relative; line-height: 1.7; }
+.exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--green); }
+
+/* ─── PROJECTS ────────────────────────────────────── */
+#projects { padding: 120px 0; background: var(--bg2); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+.project-card { background: var(--surface); border: 1px solid var(--border); padding: 28px; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
+.project-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); transition: left 0.5s; }
+.project-card:hover::before { left: 100%; }
+.project-card:hover { border-color: var(--border2); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(0,212,255,0.05); }
+.project-num { font-family: var(--mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.1em; margin-bottom: 14px; }
+.project-title { font-family: var(--display); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.35; }
+.project-desc { font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
+.project-bullets { list-style: none; margin-bottom: 20px; flex: 1; }
+.project-bullets li { font-size: 13px; color: var(--text-dim); padding: 3px 0; padding-left: 16px; position: relative; line-height: 1.7; }
+.project-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--cyan); font-size: 11px; top: 5px; }
+.tech-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.tech-tag { font-family: var(--mono); font-size: 10px; padding: 4px 10px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); color: var(--cyan); letter-spacing: 0.05em; }
+
+/* GitHub repos */
+.github-repos { margin-top: 64px; }
+.repos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.repo-card { background: var(--bg3); border: 1px solid var(--border); padding: 20px; transition: border-color 0.2s, transform 0.2s; text-decoration: none; display: block; }
+.repo-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.repo-name { font-family: var(--mono); font-size: 13px; color: var(--cyan); margin-bottom: 6px; }
+.repo-desc { font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
+.repo-meta { display: flex; gap: 16px; }
+.repo-lang, .repo-stars { font-family: var(--mono); font-size: 11px; color: var(--text-faint); display: flex; align-items: center; gap: 4px; }
+.lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+.loading-repos { font-family: var(--mono); font-size: 13px; color: var(--text-faint); text-align: center; padding: 40px; }
+
+/* ─── ENGINEERING LESSONS ─────────────────────────── */
+#lessons { padding: 120px 0; }
+.lessons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.lesson-card { background: var(--surface); border: 1px solid var(--border); padding: 24px 24px 24px 28px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+.lesson-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--orange); }
+.lesson-card:hover { border-color: rgba(255,107,53,0.4); transform: translateY(-4px); }
+.lesson-icon { font-size: 20px; margin-bottom: 12px; display: block; }
+.lesson-title { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.lesson-desc { font-size: 13px; color: var(--text-dim); line-height: 1.75; }
+.lesson-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.lesson-tool { font-family: var(--mono); font-size: 10px; padding: 3px 8px; background: rgba(255,107,53,0.07); border: 1px solid rgba(255,107,53,0.2); color: var(--orange); letter-spacing: 0.05em; }
+
+/* ─── DEBUGGING WORKFLOW ──────────────────────────── */
+#debugging { padding: 120px 0; background: var(--bg2); }
+.debug-intro { font-size: 15px; color: var(--text-dim); max-width: 600px; margin-bottom: 48px; line-height: 1.8; }
+.debug-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 2px; }
+.debug-step { background: var(--surface); border: 1px solid var(--border); padding: 28px 22px; transition: border-color 0.2s, transform 0.2s; }
+.debug-step:hover { border-color: var(--cyan); transform: translateY(-3px); }
+.debug-step-num { font-family: var(--mono); font-size: 34px; font-weight: 700; color: var(--text-faint); line-height: 1; margin-bottom: 12px; display: block; }
+.debug-step-title { font-family: var(--display); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.debug-step-items { list-style: none; }
+.debug-step-items li { font-family: var(--mono); font-size: 11px; color: var(--cyan); padding: 3px 0; letter-spacing: 0.02em; }
+.debug-step-items li::before { content: '$ '; color: var(--text-faint); }
+
+/* ─── CURRENTLY LEARNING ──────────────────────────── */
+#learning { padding: 120px 0; }
+.learning-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.learning-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+.learning-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--yellow), transparent); }
+.learning-card:hover { border-color: rgba(255,209,102,0.35); transform: translateY(-4px); }
+.learning-icon { font-size: 24px; margin-bottom: 14px; display: block; }
+.learning-title { font-family: var(--display); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.learning-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+.learning-status { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; color: var(--yellow); letter-spacing: 0.08em; text-transform: uppercase; }
+.learning-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); animation: pulseY 2s infinite; }
+
+/* ─── ARCHITECTURE ────────────────────────────────── */
+#architecture { padding: 120px 0; background: var(--bg2); }
+.arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.arch-diagram { background: var(--surface); border: 1px solid var(--border); padding: 32px 24px; position: relative; overflow: hidden; }
+.arch-diagram::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--green), var(--orange), transparent); }
+.arch-title { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 8px; }
+.arch-title::before { content: '⬡'; font-size: 14px; }
+.arch-flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.arch-node { display: flex; align-items: center; gap: 10px; background: var(--bg3); border: 1px solid var(--border); padding: 10px 20px; min-width: 180px; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--text); transition: all 0.2s; cursor: default; position: relative; }
+.arch-node:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-c); z-index: 1; }
+.arch-node .node-icon { font-size: 14px; }
+.arch-node.highlight { background: rgba(0,212,255,0.06); border-color: rgba(0,212,255,0.3); color: var(--cyan); }
+.arch-node.highlight-g { background: rgba(0,255,136,0.06); border-color: rgba(0,255,136,0.3); color: var(--green); }
+.arch-node.highlight-o { background: rgba(255,107,53,0.06); border-color: rgba(255,107,53,0.3); color: var(--orange); }
+.arch-arrow { display: flex; flex-direction: column; align-items: center; color: var(--text-faint); padding: 2px 0; }
+.arch-arrow-line { width: 1px; height: 20px; background: linear-gradient(to bottom, var(--cyan), var(--text-faint)); }
+.arch-arrow-head { font-size: 8px; color: var(--text-faint); margin-top: -2px; }
+
+/* ─── CONTACT ─────────────────────────────────────── */
+#contact { padding: 120px 0; text-align: center; position: relative; overflow: hidden; }
+#contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%); pointer-events: none; }
+.contact-inner { max-width: 640px; margin: 0 auto; }
+.contact-inner .section-tag { justify-content: center; }
+.contact-inner .section-title { margin-bottom: 20px; }
+.contact-desc { font-size: 15px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.8; }
+.contact-sub { font-size: 14px; color: var(--text-faint); margin-bottom: 48px; line-height: 1.8; font-style: italic; }
+.social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 48px; }
+.social-link { display: flex; align-items: center; gap: 10px; padding: 14px 28px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); text-decoration: none; font-family: var(--mono); font-size: 13px; transition: all 0.2s; }
+.social-link:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-c); transform: translateY(-3px); }
+.social-link svg { width: 18px; height: 18px; }
+
+/* ─── FOOTER ──────────────────────────────────────── */
+footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin-bottom: 36px; }
+.footer-logo { color: var(--cyan); }
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── CURSOR GLOW ─────────────────────────────────── */
+.cursor-glow { position: fixed; pointer-events: none; z-index: 9998; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%); transform: translate(-50%, -50%); transition: left 0.1s, top 0.1s; }
+
+/* ─── STATUS BAR ──────────────────────────────────── */
+.status-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; background: var(--bg2); border-top: 1px solid var(--border); padding: 6px 24px; display: flex; align-items: center; gap: 24px; font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
+.status-item { display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; }
+.status-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulseDot 2s infinite; }
+.status-dot.cyan { background: var(--cyan); }
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 14px 24px; }
+  .nav-links { gap: 14px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero-glow { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 24px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .skills-grid, .projects-grid, .arch-grid,
+  .lessons-grid, .debug-grid, .learning-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="grid-bg"></div>
+
+<!-- ─── NAV ───────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-logo"><span>~/</span>faraaz<span>.sh</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Stack</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#debugging">Debug</a></li>
+    <li><a href="#learning">Learning</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container">
+    <div class="hero-grid">
+
+      <div class="hero-content">
+        <div class="hero-tag">DevOps &amp; Cloud Engineer</div>
+        <h1 class="hero-name">
+          <span class="line1">Faraaz</span>
+          <span class="line2">Mohammed</span>
+        </h1>
+        <p class="hero-role">
+          <span>$ </span>building <span style="color:var(--cyan)">cloud infrastructure</span> &amp; <span style="color:var(--green)">CI/CD pipelines</span><span class="blink">_</span>
+        </p>
+        <p class="hero-desc">
+          Chemistry graduate from King's College London transitioning into DevOps. Built production-style cloud infrastructure projects using <strong>AWS, Docker, Kubernetes</strong> and <strong>GitHub Actions</strong> — with hands-on debugging of networking, CI/CD, and container orchestration issues.
+        </p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            View Projects
+          </a>
+          <a href="https://github.com/23faraaz" target="_blank" rel="noopener" class="btn-ghost">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.28-.01-1.02-.01-2-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/faraaz-mohammed-88b170279/" target="_blank" rel="noopener" class="btn-ghost">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Terminal: honest profile.yaml -->
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="term-dot"></span>
+          <span class="term-dot"></span>
+          <span class="term-dot"></span>
+          <span class="term-title">faraaz@devops-machine:~</span>
+        </div>
+        <div class="terminal-body">
+          <span class="t-line"><span class="t-prompt">➜</span> <span class="typed-text typed-1" style="color:var(--text)">cat profile.yaml</span></span>
+          <span class="t-line typed-text typed-2"><span class="t-key">name</span><span class="t-comment">:</span> <span class="t-str">"Faraaz Mohammed"</span></span>
+          <span class="t-line typed-text typed-2"><span class="t-key">role</span><span class="t-comment">:</span> <span class="t-str">"DevOps Engineer"</span></span>
+          <span class="t-line typed-text typed-3"><span class="t-key">cloud</span><span class="t-comment">:</span> <span class="t-val">["AWS", "Docker", "Kubernetes"]</span></span>
+          <span class="t-line typed-text typed-3"><span class="t-key">education</span><span class="t-comment">:</span> <span class="t-str">"BSc Chemistry, KCL"</span></span>
+          <span class="t-line typed-text typed-4"><span class="t-key">status</span><span class="t-comment">:</span> <span class="t-val">learning_in_public</span></span>
+          <span class="t-line typed-text typed-5"><span class="t-key">current_focus</span><span class="t-comment">:</span></span>
+          <span class="t-indent typed-text typed-5"><span class="t-comment">- </span><span class="t-str">"AWS infrastructure"</span></span>
+          <span class="t-indent typed-text typed-6"><span class="t-comment">- </span><span class="t-str">"Docker + Kubernetes"</span></span>
+          <span class="t-indent typed-text typed-6"><span class="t-comment">- </span><span class="t-str">"CI/CD pipelines"</span></span>
+          <span class="t-indent typed-text typed-7"><span class="t-comment">- </span><span class="t-str">"Terraform (learning)"</span></span>
+          <br>
+          <span class="t-line" style="animation:fadeIn 0.5s 9.8s both"><span class="t-prompt">➜</span> <span class="t-comment"># open to DevOps roles ▸</span><span class="blink" style="color:var(--cyan)">_</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">01 — Who I Am</div>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>graduate DevOps engineer</strong> with a Chemistry degree from King's College London. I build and operate cloud infrastructure on AWS. I treat infrastructure as code: version-controlled, reproducible, and deployed through automation.</p>
+        <p>I've built and debugged real systems. That includes <strong>container networking failures</strong>, <strong>Route53 DNS misconfiguration</strong>, <strong>security group blocks</strong>, and <strong>non-deterministic CI pipeline outputs</strong>. I know what broken looks like and how to trace it.</p>
+        <p>My projects cover <strong>AWS static hosting with S3, CloudFront, and Route53</strong>, a <strong>containerised FastAPI service</strong> deployed via Kubernetes and GitHub Actions, and <strong>EC2 web infrastructure</strong> with NGINX and VPC networking. I'm currently building depth in Terraform and observability tooling.</p>
+        <div class="about-stats">
+          <div class="stat-box">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Cloud projects shipped</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Infra bugs root-caused</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">5</div>
+            <div class="stat-label">AWS services operated</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-label">CI/CD pipelines built</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-card reveal">
+        <div class="edu-badge">🎓 Education</div>
+        <h3>BSc Chemistry</h3>
+        <div class="school">King's College London</div>
+        <p>Chemistry instilled rigorous analytical thinking and a precision-first approach to problem solving. Debugging infrastructure requires the same mindset as debugging an experiment: isolate variables, form a hypothesis, test systematically, document results.</p>
+        <div class="transition-note">
+          // Career Transition<br>
+          Applying scientific problem-solving to cloud infrastructure. Currently building hands-on DevOps projects and documenting debugging workflows publicly on GitHub.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ═══════════════════════════════════════════════ SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">02 — Technical Skills</div>
+      <h2 class="section-title">Technical Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">☁</div><div class="skill-cat-name">Cloud &amp; AWS</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill hot">EC2</span><span class="skill-pill hot">S3</span>
+          <span class="skill-pill hot">CloudFront</span><span class="skill-pill hot">Route53</span>
+          <span class="skill-pill">IAM</span><span class="skill-pill">VPC</span>
+          <span class="skill-pill">Security Groups</span><span class="skill-pill">ALB</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">🐳</div><div class="skill-cat-name">Containers &amp; Orchestration</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill hot">Docker</span>
+          <span class="skill-pill hot">Kubernetes (Deployments, Services, Pod lifecycle)</span>
+          <span class="skill-pill">Docker Hub</span>
+          <span class="skill-pill">Layer caching</span>
+          <span class="skill-pill">Container networking</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">⚙</div><div class="skill-cat-name">CI/CD &amp; Automation</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill hot">GitHub Actions</span><span class="skill-pill hot">Git</span>
+          <span class="skill-pill">Pipeline YAML</span>
+          <span class="skill-pill">Docker image push</span>
+          <span class="skill-pill">Automated builds</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">🐧</div><div class="skill-cat-name">Linux &amp; Networking</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill hot">Linux (Ubuntu)</span><span class="skill-pill">Bash scripting</span>
+          <span class="skill-pill">NGINX</span><span class="skill-pill">dig / nslookup</span>
+          <span class="skill-pill">curl / netstat</span><span class="skill-pill">SSH</span>
+          <span class="skill-pill">TCP/IP</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">🐍</div><div class="skill-cat-name">Programming</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill hot">Python</span><span class="skill-pill hot">FastAPI</span>
+          <span class="skill-pill">pandas / NumPy</span><span class="skill-pill">SQL</span>
+          <span class="skill-pill">JSON Schema</span><span class="skill-pill">YAML</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><div class="skill-cat-icon">🔧</div><div class="skill-cat-name">Tools &amp; Practices</div></div>
+        <div class="skill-pills">
+          <span class="skill-pill">Git branching &amp; rebase</span>
+          <span class="skill-pill">Reflog recovery</span>
+          <span class="skill-pill">Conflict resolution</span>
+          <span class="skill-pill">Reproducible builds</span>
+          <span class="skill-pill">Output validation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">03 — Work History</div>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">YCX</div>
+          <div class="exp-period">Oct 2025 – Feb 2026</div>
+        </div>
+        <div class="exp-role">AI &amp; Data Science Intern</div>
+        <ul class="exp-bullets">
+          <li>Worked on <strong>Decklan</strong>, an AI-powered system converting unstructured input into structured, investor-ready pitch deck content.</li>
+          <li>Implemented <strong>JSON schema validation</strong> to enforce consistent output structures across the pipeline.</li>
+          <li>Built validation logic to detect malformed and non-deterministic AI outputs, reducing manual QA overhead.</li>
+          <li>Diagnosed and resolved CI pipeline failures caused by inconsistent AI model outputs using reproducible fix strategies.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">SPREADCO</div>
+          <div class="exp-period">May 2023 – Jul 2023</div>
+        </div>
+        <div class="exp-role">Market &amp; Research Analyst Intern</div>
+        <ul class="exp-bullets">
+          <li>Standardised large financial datasets using <strong>Python (pandas, NumPy)</strong> to ensure data integrity.</li>
+          <li>Automated recurring reporting workflows, eliminating manual steps and reducing turnaround time.</li>
+          <li>Built structured tracking models to detect data inconsistencies across financial records.</li>
+          <li>Performed exploratory data analysis using <strong>Python and SQL</strong> to surface actionable insights.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ═══════════════════════════════════════════════ PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">04 — What I've Built</div>
+      <h2 class="section-title">Key Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">// PROJECT 01</div>
+        <div class="project-title">Containerised RAG API with CI/CD and Kubernetes Deployment</div>
+        <p class="project-desc">A FastAPI-based Retrieval-Augmented Generation service built end-to-end: containerised, published, and deployed via an automated pipeline.</p>
+        <ul class="project-bullets">
+          <li>Built a FastAPI RAG API and containerised it with Docker for reproducible environments</li>
+          <li>Pushed images to Docker Hub and validated reproducible builds across clean environments</li>
+          <li>Diagnosed container networking failures and optimised Docker layer caching</li>
+          <li>Deployed using Kubernetes Deployments and Services</li>
+          <li>Automated builds and deploys with GitHub Actions CI/CD pipeline</li>
+        </ul>
+        <p class="project-desc" style="margin-top:12px; font-size:12px; border-left:2px solid var(--green); padding-left:10px; color:var(--text-dim)">
+          <span style="color:var(--green); font-family:var(--mono); font-size:10px;">// WHY</span><br>
+          Chose Kubernetes over plain Docker to surface real orchestration concerns — readiness probes, service discovery, and replica management. Kept app logic minimal deliberately to focus on infrastructure behaviour.
+        </p>
+        <div class="tech-stack" style="margin-bottom:12px">
+          <span class="tech-tag">FastAPI</span><span class="tech-tag">Docker</span>
+          <span class="tech-tag">Kubernetes</span><span class="tech-tag">GitHub Actions</span>
+          <span class="tech-tag">Linux</span>
+        </div>
+        <a href="https://github.com/23faraaz" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:0.05em;">→ github.com/23faraaz</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// PROJECT 02</div>
+        <div class="project-title">AWS EC2 Web Infrastructure with NGINX and DNS Configuration</div>
+        <p class="project-desc">Hands-on AWS infrastructure: EC2 provisioning, NGINX web server setup, VPC networking, and systematic DNS and connectivity debugging.</p>
+        <ul class="project-bullets">
+          <li>Provisioned EC2 instances and configured NGINX as a production web server</li>
+          <li>Set up security groups applying least-privilege inbound/outbound rules</li>
+          <li>Debugged DNS routing failures between Route53 and EC2 using dig and nslookup</li>
+          <li>Diagnosed HTTP connectivity blocked by missing security group rules</li>
+        </ul>
+        <p class="project-desc" style="margin-top:12px; font-size:12px; border-left:2px solid var(--green); padding-left:10px; color:var(--text-dim)">
+          <span style="color:var(--green); font-family:var(--mono); font-size:10px;">// WHY</span><br>
+          Built on EC2 rather than a managed service to force direct engagement with networking primitives: security groups, VPC routing, and DNS resolution. Understanding these layers is essential before abstracting them away.
+        </p>
+        <div class="tech-stack" style="margin-bottom:12px">
+          <span class="tech-tag">AWS EC2</span><span class="tech-tag">NGINX</span>
+          <span class="tech-tag">VPC</span><span class="tech-tag">Route53</span>
+          <span class="tech-tag">Security Groups</span>
+        </div>
+        <a href="https://github.com/23faraaz" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:0.05em;">→ github.com/23faraaz</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// PROJECT 03</div>
+        <div class="project-title">Multi-Container Flask + Redis System (Docker Compose + NGINX)</div>
+        <p class="project-desc">A multi-container system built to surface real Docker failure modes: container networking, state persistence, configuration drift, and horizontal scaling with a reverse proxy.</p>
+        <ul class="project-bullets">
+          <li>Diagnosed Flask-to-Redis connection failure — traced root cause to containers not sharing localhost; fixed by using Compose service DNS</li>
+          <li>Implemented named Docker volume for Redis <code style="color:var(--cyan);font-family:var(--mono)">/data</code> to persist visit counter across container restarts</li>
+          <li>Injected <code style="color:var(--cyan);font-family:var(--mono)">REDIS_HOST</code> and <code style="color:var(--cyan);font-family:var(--mono)">REDIS_PORT</code> via Compose environment variables — decoupled config from image</li>
+          <li>Hit host port conflicts scaling with <code style="color:var(--cyan);font-family:var(--mono)">--scale web=3</code>; resolved by switching Flask to <code style="color:var(--cyan);font-family:var(--mono)">expose</code> and routing traffic through NGINX</li>
+          <li>Debugged container state using <code style="color:var(--cyan);font-family:var(--mono)">docker logs</code>, <code style="color:var(--cyan);font-family:var(--mono)">docker exec</code>, and <code style="color:var(--cyan);font-family:var(--mono)">docker volume inspect</code></li>
+        </ul>
+        <p class="project-desc" style="margin-top:12px; font-size:12px; border-left:2px solid var(--green); padding-left:10px; color:var(--text-dim)">
+          <span style="color:var(--green); font-family:var(--mono); font-size:10px;">// WHY</span><br>
+          Used Compose over Kubernetes to keep complexity proportional to scope. Chose Redis as a stateful dependency deliberately — it surfaces persistence, networking, and ephemerality issues early. NGINX was introduced only after scaling exposed real port-binding limitations, not pre-emptively.
+        </p>
+        <div class="tech-stack" style="margin-bottom:12px">
+          <span class="tech-tag">Docker</span><span class="tech-tag">Docker Compose</span>
+          <span class="tech-tag">Flask</span><span class="tech-tag">Redis</span>
+          <span class="tech-tag">NGINX</span>
+        </div>
+        <a href="https://github.com/23faraaz" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:0.05em;">→ github.com/23faraaz</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">// PROJECT 04</div>
+        <div class="project-title">AWS Static Website Hosting — S3 + CloudFront + Route53</div>
+        <p class="project-desc">Designed and deployed a full AWS static hosting stack. Configured CDN, custom domain, HTTPS termination, and cache management. Debugged real infrastructure issues from stale cache to DNS propagation failures.</p>
+        <ul class="project-bullets">
+          <li>Configured S3 bucket for static website hosting with correct public-access policies and bucket policy scoped to CloudFront OAC principal only</li>
+          <li>Created a CloudFront distribution with HTTPS-only viewer protocol and edge caching across AWS PoPs</li>
+          <li>Configured Route53 hosted zone with an A record alias pointing to the CloudFront distribution</li>
+          <li>Provisioned an ACM TLS certificate with DNS validation via Route53 CNAME records and attached it to CloudFront</li>
+          <li>Implemented cache invalidation (<code style="color:var(--cyan);font-family:var(--mono)">/*</code>) via AWS CLI post-deploy to flush stale edge-cached content</li>
+          <li>Debugged CloudFront serving stale <code style="color:var(--cyan);font-family:var(--mono)">index.html</code> after redeployment — root cause was 24hr default TTL; resolved with a targeted invalidation</li>
+          <li>Traced DNS propagation delay of ~15 minutes after Route53 record creation using <code style="color:var(--cyan);font-family:var(--mono)">dig +trace</code></li>
+          <li>Resolved S3 bucket policy blocking CloudFront origin requests — fixed by scoping the policy to the correct OAC principal</li>
+        </ul>
+        <p class="project-desc" style="margin-top:12px; font-size:12px; border-left:2px solid var(--green); padding-left:10px; color:var(--text-dim)">
+          <span style="color:var(--green); font-family:var(--mono); font-size:10px;">// WHY</span><br>
+          Chose S3 + CloudFront over EC2 hosting because the site is static — no reason to manage a server. Using CloudFront in front of S3 enforces HTTPS, adds edge caching, and keeps the S3 bucket private. Route53 was used to own the full DNS stack end-to-end.
+        </p>
+        <div class="tech-stack" style="margin-bottom:12px">
+          <span class="tech-tag">AWS S3</span><span class="tech-tag">CloudFront</span>
+          <span class="tech-tag">Route53</span><span class="tech-tag">ACM</span>
+          <span class="tech-tag">IAM</span><span class="tech-tag">AWS CLI</span>
+        </div>
+        <a href="https://github.com/23faraaz" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:0.05em;">→ github.com/23faraaz</a>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ENGINEERING LESSONS -->
+<section id="lessons">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">05 — Real Debugging Experience</div>
+      <h2 class="section-title">Engineering Lessons</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="lessons-grid">
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">🌐</span>
+        <div class="lesson-title">DNS Routing Failure</div>
+        <p class="lesson-desc">Debugged DNS routing issues between Route53 and an EC2 instance. Used <code style="color:var(--cyan);font-family:var(--mono)">dig</code> and <code style="color:var(--cyan);font-family:var(--mono)">nslookup</code> to trace propagation delays and an A record pointing to a stale IP after an instance restart.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">dig</span><span class="lesson-tool">nslookup</span>
+          <span class="lesson-tool">Route53</span><span class="lesson-tool">EC2</span>
+        </div>
+      </div>
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">🐳</span>
+        <div class="lesson-title">Container Networking Failure</div>
+        <p class="lesson-desc">Diagnosed container networking failures during Docker builds where services couldn't communicate. Traced the issue to a missing network bridge configuration and incorrect port binding between containers.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">Docker</span><span class="lesson-tool">docker logs</span>
+          <span class="lesson-tool">netstat</span><span class="lesson-tool">curl</span>
+        </div>
+      </div>
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">⚙</span>
+        <div class="lesson-title">Non-Deterministic CI Failures</div>
+        <p class="lesson-desc">Handled CI pipeline failures caused by inconsistent AI model outputs at YCX. Implemented JSON schema validation and output sanity checks to make the pipeline predictable and stable.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">GitHub Actions</span><span class="lesson-tool">JSON Schema</span>
+          <span class="lesson-tool">Python</span>
+        </div>
+      </div>
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">📦</span>
+        <div class="lesson-title">Non-Reproducible Docker Builds</div>
+        <p class="lesson-desc">Investigated builds that succeeded locally but failed in CI due to unpinned base image tags and floating dependency versions. Fixed by pinning exact versions and validating across fresh CI environments.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">Docker</span><span class="lesson-tool">Dockerfile</span>
+          <span class="lesson-tool">Docker Hub</span>
+        </div>
+      </div>
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">🔒</span>
+        <div class="lesson-title">Security Group Blocking HTTP</div>
+        <p class="lesson-desc">Troubleshot an EC2 web server unreachable from the internet despite NGINX running correctly. Root cause: missing inbound rule on port 80 in the security group. Traced using curl and EC2 Instance Connect.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">AWS EC2</span><span class="lesson-tool">Security Groups</span>
+          <span class="lesson-tool">NGINX</span><span class="lesson-tool">curl</span>
+        </div>
+      </div>
+
+      <div class="lesson-card reveal">
+        <span class="lesson-icon">🔄</span>
+        <div class="lesson-title">Lost Commit Recovery</div>
+        <p class="lesson-desc">Recovered commits lost after an accidental hard reset by using <code style="color:var(--cyan);font-family:var(--mono)">git reflog</code> to identify the correct commit hash and restore the branch — without losing any work.</p>
+        <div class="lesson-tools">
+          <span class="lesson-tool">git reflog</span><span class="lesson-tool">git reset</span>
+          <span class="lesson-tool">git cherry-pick</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ DEBUGGING WORKFLOW -->
+<section id="debugging">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">06 — How I Debug</div>
+      <h2 class="section-title">Debugging Workflow</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="debug-intro reveal">
+      A consistent, layer-by-layer debugging process is how infrastructure failures get diagnosed accurately and fixed permanently. This is the framework I apply to every infrastructure problem.
+    </p>
+    <div class="debug-grid">
+
+      <div class="debug-step reveal">
+        <span class="debug-step-num">01</span>
+        <div class="debug-step-title">Identify Failing Layer</div>
+        <ul class="debug-step-items">
+          <li>DNS / networking</li>
+          <li>Application layer</li>
+          <li>Container</li>
+          <li>CI pipeline</li>
+          <li>Cloud config</li>
+        </ul>
+      </div>
+
+      <div class="debug-step reveal">
+        <span class="debug-step-num">02</span>
+        <div class="debug-step-title">Validate Connectivity</div>
+        <ul class="debug-step-items">
+          <li>dig</li>
+          <li>nslookup</li>
+          <li>curl -v</li>
+          <li>netstat -tulnp</li>
+          <li>ping</li>
+        </ul>
+      </div>
+
+      <div class="debug-step reveal">
+        <span class="debug-step-num">03</span>
+        <div class="debug-step-title">Inspect Logs</div>
+        <ul class="debug-step-items">
+          <li>docker logs</li>
+          <li>journalctl</li>
+          <li>CI pipeline output</li>
+          <li>nginx error.log</li>
+          <li>AWS CloudWatch</li>
+        </ul>
+      </div>
+
+      <div class="debug-step reveal">
+        <span class="debug-step-num">04</span>
+        <div class="debug-step-title">Isolate Variables</div>
+        <ul class="debug-step-items">
+          <li>Recreate w/ Docker</li>
+          <li>Test individually</li>
+          <li>Compare envs</li>
+          <li>Minimal repro</li>
+          <li>Pin dependencies</li>
+        </ul>
+      </div>
+
+      <div class="debug-step reveal">
+        <span class="debug-step-num">05</span>
+        <div class="debug-step-title">Apply &amp; Validate Fix</div>
+        <ul class="debug-step-items">
+          <li>Update config</li>
+          <li>Commit to version control</li>
+          <li>Run through CI</li>
+          <li>Validate end-to-end</li>
+          <li>Document root cause</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CURRENTLY LEARNING -->
+<section id="learning">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">07 — Growth Trajectory</div>
+      <h2 class="section-title">Currently Learning</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="reveal" style="font-size:15px; color:var(--text-dim); max-width:580px; margin-bottom:48px; line-height:1.8;">
+      One active focus. Not four things labelled "in progress" with nothing to show.
+    </p>
+    <div class="learning-grid" style="grid-template-columns: minmax(300px, 480px);">
+
+      <div class="learning-card reveal">
+        <span class="learning-icon">🏗</span>
+        <div class="learning-title">Terraform — AWS Infrastructure as Code</div>
+        <p class="learning-desc">Provisioning AWS infrastructure declaratively using Terraform. Moving beyond console-click infrastructure toward version-controlled, reproducible resource definitions. Currently managing VPCs, EC2 instances, S3 buckets, and IAM roles via <code style="color:var(--yellow);font-family:var(--mono)">terraform apply</code>.</p>
+        <div style="margin-top:16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+          <div class="learning-status">In progress</div>
+          <a href="https://github.com/23faraaz" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:0.05em;">→ View repo on GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">08 — System Design</div>
+      <h2 class="section-title">Infrastructure I've Designed</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="arch-grid">
+
+      <!-- Portfolio Deployment -->
+      <div class="arch-diagram reveal">
+        <div class="arch-title">Portfolio Deployment</div>
+        <div class="arch-flow">
+          <div class="arch-node highlight"><span class="node-icon">👤</span> User Browser</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">🌐</span> Route 53 DNS</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">⚡</span> CloudFront CDN</div>
+          <div style="display:flex;align-items:center;gap:4px;color:var(--text-faint);font-family:var(--mono);font-size:10px;margin:2px 0;">
+            <span style="flex:1;height:1px;background:var(--border)"></span>
+            <span>HTTPS · Edge Cache</span>
+            <span style="flex:1;height:1px;background:var(--border)"></span>
+          </div>
+          <div class="arch-node highlight-g"><span class="node-icon">🗄</span> S3 Static Hosting</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-faint);margin-top:12px;text-align:center">HTML · CSS · JS · Assets</div>
+        </div>
+      </div>
+
+      <!-- Containerised API Deployment -->
+      <div class="arch-diagram reveal">
+        <div class="arch-title">Containerised API Deployment</div>
+        <div class="arch-flow">
+          <div class="arch-node highlight"><span class="node-icon">👨‍💻</span> Developer</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">🐙</span> GitHub Repository</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">⚙</span> GitHub Actions</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">🐳</span> Docker Build</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight-g"><span class="node-icon">☸</span> Kubernetes Deployment</div>
+        </div>
+      </div>
+
+      <!-- AWS Web Infrastructure -->
+      <div class="arch-diagram reveal">
+        <div class="arch-title">AWS Web Infrastructure</div>
+        <div class="arch-flow">
+          <div class="arch-node highlight"><span class="node-icon">🌍</span> Internet</div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight"><span class="node-icon">⚖</span> Application Load Balancer</div>
+          <div style="display:flex;gap:12px;margin:2px 0">
+            <div class="arch-node" style="flex:1;min-width:unset;font-size:10px;padding:8px"><span>🖥 EC2 #1</span></div>
+            <div class="arch-node" style="flex:1;min-width:unset;font-size:10px;padding:8px"><span>🖥 EC2 #2</span></div>
+          </div>
+          <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-head">▾</div></div>
+          <div class="arch-node highlight-o"><span class="node-icon">🔒</span> Private Network</div>
+          <div style="display:flex;gap:8px;margin-top:12px;justify-content:center;flex-wrap:wrap">
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 8px;border:1px solid var(--border);color:var(--text-faint)">Security Groups</span>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 8px;border:1px solid var(--border);color:var(--text-faint)">VPC · Subnets</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="section-tag" style="justify-content:center">09 — Get In Touch</div>
+      <h2 class="section-title" style="font-family:var(--display);font-size:clamp(26px,3.5vw,40px);font-weight:800;color:var(--text);letter-spacing:-0.02em;margin-bottom:20px">
+        Open to DevOps &amp; Cloud Infrastructure Roles
+      </h2>
+      <p class="contact-desc">I'm actively seeking DevOps, Cloud Infrastructure, and Platform Engineering opportunities where I can contribute and grow.</p>
+      <p class="contact-sub">Currently building production-style cloud infrastructure projects and documenting debugging workflows on GitHub.</p>
+      <div class="social-links">
+        <a href="https://github.com/23faraaz" target="_blank" rel="noopener" class="social-link">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.28-.01-1.02-.01-2-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+          github.com/23faraaz
+        </a>
+        <a href="https://www.linkedin.com/in/faraaz-mohammed-88b170279/" target="_blank" rel="noopener" class="social-link">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn Profile
+        </a>
+      </div>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--text-faint)">
+        <span style="color:var(--cyan)">$</span> echo "Available for full-time DevOps / Cloud Engineering roles"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FOOTER -->
+<footer>
+  <span class="footer-logo">faraaz.sh</span>
+  <span>Faraaz Mohammed — DevOps &amp; Cloud Engineer</span>
+  <span>Deployed on AWS S3 + CloudFront + Route53</span>
+</footer>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <div class="status-item">
+    <div class="status-dot green"></div>
+    <span>Open to DevOps roles</span>
+  </div>
+  <div class="status-item">
+    <div class="status-dot cyan"></div>
+    <span>AWS · Docker · K8s · Terraform</span>
+  </div>
+  <div class="status-item" style="margin-left:auto">
+    <span>v2.0.0 · London, UK</span>
+  </div>
+</div>
+
+<script>
+// ─── Cursor glow
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+
+// ─── Scroll reveal
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 0.07 + 's';
+  revealObs.observe(el);
+});
+
+// ─── Navbar shrink on scroll
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.style.padding = window.scrollY > 60 ? '10px 48px' : '16px 48px';
+});
+
+// ─── GitHub Repos
+// Reads from ./repos.json, generated nightly by GitHub Actions and uploaded to S3.
+// Zero GitHub API rate-limit risk. Zero runtime API dependency.
+const LANG_COLORS = {
+  Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#2b7489',
+  Shell: '#89e051', HTML: '#e34c26', CSS: '#563d7c', Dockerfile: '#384d54',
+  YAML: '#cb171e', Go: '#00ADD8', Rust: '#dea584'
+};
+
+function renderRepoCard(repo) {
+  const name    = repo.name || 'Unnamed repository';
+  const url     = repo.html_url || 'https://github.com/23faraaz';
+  const rawDesc = repo.description || '';
+  const desc    = rawDesc.length > 90 ? rawDesc.slice(0, 90) + '…' : rawDesc || 'No description provided';
+  const stars   = typeof repo.stargazers_count === 'number' ? repo.stargazers_count : 0;
+  const lang    = repo.language || null;
+  const color   = LANG_COLORS[lang] || '#888';
+
+  return `
+    <a href="${url}" target="_blank" rel="noopener noreferrer" class="repo-card">
+      <div class="repo-name">${name}</div>
+      <div class="repo-desc">${desc}</div>
+      <div class="repo-meta">
+        ${lang ? `<div class="repo-lang"><div class="lang-dot" style="background:${color}"></div>${lang}</div>` : ''}
+        <div class="repo-stars">★ ${stars}</div>
+      </div>
+    </a>`;
+}
+
+async function loadRepos() {
+  const container = document.getElementById('repo-list');
+  if (!container) {
+    console.error('[repos] #repo-list element not found in the DOM.');
+    return;
+  }
+
+  try {
+    // Fetch the pre-built static file — no API rate limits, instant load
+    const response = await fetch('./repos.json');
+
+    if (!response.ok) {
+      throw new Error(`repos.json responded with status ${response.status}`);
+    }
+
+    const repos = await response.json();
+
+    if (!Array.isArray(repos) || repos.length === 0) {
+      container.innerHTML = `
+        <div class="loading-repos" style="grid-column:1/-1; color:var(--text-faint)">
+          No public repositories found.
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = repos.map(renderRepoCard).join('');
+
+  } catch (err) {
+    console.error('[repos] Failed to load repos.json:', err.message);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadRepos);
+
+// ─── Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
